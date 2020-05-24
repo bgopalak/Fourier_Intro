@@ -1,0 +1,161 @@
+\documentclass[10pt]{beamer}
+\usefonttheme{professionalfonts}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{upgreek}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usetheme{AnnArbor}
+%\usetheme{UniKlu}
+
+\newcommand{\iu}{{i\mkern1mu}}
+\newcommand{\ju}{{j\mkern1mu}}
+
+\begin{document}
+
+
+
+\author{\textcolor{orange}{Balaji Gopalakrishnan}}
+\title{Fourier Transforms - Part II}
+\subtitle{\huge Review of math and basic Fourier Series}
+%\logo{"index.png"}
+
+\institute{CIT Alumni Group}
+\date{May 15, 2020}
+%\subject{Hi}
+%\setbeamercovered{transparent}
+%\setbeamertemplate{navigation symbols}{}
+%\titlegraphic{\includegraphics[width=2cm]{index.jpeg}}
+
+
+\begin{frame}[plain]
+	\maketitle
+	%\date{05/19/2020}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Topics in Part II \hspace{25pt}} 
+	We will cover the following topics in the next 30 minutes. We will only briefly discuss each of the areas to serve as a brush up of the concepts. This is not a rigorous math class. \\
+	
+\begin{list}{$\cap$}{}
+	\item Quick review of Part 1 of the series
+	\item Quick review of Vector Algebra
+	\item Fourier Series
+	\item Fourier Transform - General Formula and Intutive Explanation
+	\item Fourier Transform Visual examples
+	\item Digital Fourier Transform and Fast Fourier Transform
+\end{list}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{ Vector Mathematics Intro}
+	
+	\begin{list}{$\cap$}{}
+		\item The important characteristic of a vector quantity is that it has both a magnitude (or size) and a direction.Both of these properties must be given in order to specify a vector completely.
+		\item An example of a vector quantity is velocity.  It tells us how fast is the object traveling and the direction of travel
+		\item A quantity with magnitude alone, but no direction, is not a vector. It is called a scalar.One example of a scalar is distance. This tells us how far we are from a fixed point, but does not give us any information about the direction.
+		\item A vector quantity is denoted as  $\vec{A}$
+		
+		\item A vector quantity can be represented in $\{x,y\} $ format or $R\angle$ format
+	\end{list}
+\end{frame}
+
+\begin{frame}
+	\frametitle{ Vector Operations}
+	
+	We will see visual examples of this.
+	
+	\begin{list}{$\cap$}{}
+		\item Addition 
+		\item Subtraction
+		\item Multiplication
+		
+		\begin{enumerate}
+			\item Dot Product - Denoted as: $A \odot B$
+			\item Cross Product - Denoted as $A \otimes B$
+		\end{enumerate}
+	
+	\end{list}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Visual Examples of Algebraic operations}
+
+	We will quickly see in the graphs via Geogebra, how vector addition and subtraction work. \\
+	
+	We will briefly cover dot product and cross product, but for this discussion we do not need to worry about products.\\
+	
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Geometric Series Proof}
+	Geometric series GS = $a,ar^1 ,ar^2, ar^3 ...... ar^{n-1}$
+	The sum of this series is 
+	$$S_n = a+ar^1 +ar^2+ar^3 ...... + ar^{n-1} $$
+	Multiply both sides by r
+	$$rS_n = ar^1+ar^2 +ar^3+ar^4 ...... + ar^{n} $$
+	Subtract both equations
+	$$S_n(1-r) = a(1-r^n)$$
+	$$Sn = \frac{a(1-r^n)}{(1-r)}$$
+	
+	
+\end{frame}
+
+
+
+\begin{frame}
+	\frametitle{Fourier Series Expansions - DISCRETE TIME FOURIER SERIES}
+	
+		\begin{list}{$\cap$}{}
+			
+			\item Lets assume $x[k]$ is periodic with period $N_0$
+			\item Goal is to write $x[k]$ as a series of complex sinusoids such as $$x[k] = \sum_{0}^{r}{D_r e^ {\ju r\omega_0 k}}$$
+			\item Where $\omega_0 = 2\pi/N_0$ which is also called as fundamental frequency of $x[k]$
+			
+			\item Also recall $$ e^ {\ju {r +N_0}\omega_0 k} =  e^ {\ju {r }\omega_0 k} * e^ {\ju {N_0}\omega_0 k} = e^ {\ju {r }\omega_0 k} $$
+
+		\end{list}
+		
+\end{frame}
+
+\begin{frame}
+	\frametitle{Continued}
+$$x[k] = \sum_{0}^{N_0 -1}{D_r e^ {\ju r\omega_0 k}}$$
+Multiply both sides by the sum of all frequencies : $\sum_{r=0}^{N_0-1}e^{-\ju m \omega k}$
+
+$$\sum_{k=0}^{N_0-1}{e^{-\ju m \omega k} x[k]} = {\sum_{k=0}^{N_0-1} {\sum_{r=0}^{N_0 -1}}{D_r e^ {\ju r\omega_0 k} {e^ {-\ju m\omega_0 k}}}} =  {\sum_{r=0}^{N_0-1}}{ {D_r}\sum_{k=0}^{N_0 -1} { e^ {\ju {(r-m)}\omega_0 k}}} $$ 
+
+When $r \ne m $ the second part of the series collapses to zero because of geometric series
+$$\sum_{k=0}^{N_0 -1} { e^ {\ju {(r-m)}\omega_0 k}} = {\frac{e^{\ju(r-m)\omega_0N_0}-1 }{e^{\ju(r-m)\omega_0}-1 } }  $$  
+as $\omega_0 = \frac{2*\pi}{N_0}$ , the above equation becomes 0 and when  $m = r$ , the equation becomes
+
+$$D_m = \frac{1}{N_0} \sum_{k=0}^{N_0 -1} x[k] {e^{\ju m\omega_0k}}$$
+
+
+	
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Fourier Series Expansions - DISCRETE TIME FOURIER SERIES -2 }
+	
+	
+	
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Fourier Transform}
+	
+	Fouries Transform is just a process of taking a function and making into a fourier series.  
+\end{frame}
+
+\end{document}
